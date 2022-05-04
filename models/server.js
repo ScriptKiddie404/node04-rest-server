@@ -18,14 +18,20 @@ class Server {
 
     middleware() {
 
+        // Servir contenido estático
         this.app.use(express.static('public'));
+
+        // Parseo body
+        this.app.use(express.json());
+
+        // Cors
         this.app.use(cors());
 
     }
 
     routes() {
 
-        this.app.use('/api/users', require('../routes/users.router'));
+        this.app.use('/api/users', require('../routes/users.routes'));
 
     }
 
