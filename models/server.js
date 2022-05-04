@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../database/config');
+
 
 class Server {
 
@@ -10,6 +12,9 @@ class Server {
 
         // Cargar middleware
         this.middleware();
+
+        // Conectar a la bd
+        this.connectDatabase();
 
         // Cargar rutas
         this.routes();
@@ -26,6 +31,12 @@ class Server {
 
         // Cors
         this.app.use(cors());
+
+    }
+
+    async connectDatabase() {
+
+        await dbConnection();
 
     }
 
