@@ -14,8 +14,8 @@ const UserSchema = Schema({
     },
 
     password: {
+        required: true,
         type: String,
-        required: true
     },
 
     imagen: {
@@ -24,7 +24,6 @@ const UserSchema = Schema({
 
     role: {
         type: String,
-        required: true
     },
 
     estatus: {

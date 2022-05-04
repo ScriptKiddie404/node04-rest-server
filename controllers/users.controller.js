@@ -1,5 +1,7 @@
 //!! Desestructuración sólo para obtener el intellisense de VSC:
 const { request, response } = require('express');
+const bcryptjs = require('bcryptjs');
+const User = require('../models/user');
 
 
 const getUsers = (req = request, res = response) => {
@@ -19,18 +21,38 @@ const getUsers = (req = request, res = response) => {
     });
 }
 
-const postUsers = (req = request, res = response) => {
+const postUsers = async (req = request, res = response) => {
 
-    // const body = req.body
+    const { name, email, password, role } = req.body;
 
-    const { id, name, age } = req.body;
+    const user = new User({ name, email, password, role });
+
+
+    //!! Validar que el correo no exista previamente en la base de datos.
+    const emailExists = await User.findOne({ email });
+
+    if (emailExists) {
+
+        res.status(400); //!! Bad request
+
+        return res.json({
+            error: 'Ese correo ya se encuentra registrado.'
+        });
+    }
+
+    // Hashear password
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync(password, salt);
+
+
+    // Guardar en BD
+    await user.save();
 
     res.json({
-        msg: 'api-post',
-        id,
-        name,
-        age
+        user
     });
+
+
 }
 
 const putUsers = (req = request, res = response) => {
