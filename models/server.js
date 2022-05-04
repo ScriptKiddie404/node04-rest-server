@@ -7,15 +7,24 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
 
-        // Llamada a las rutas:
+        // Cargar middleware
+        this.middleware();
+
+        // Cargar rutas
         this.routes();
+
+    }
+
+    middleware() {
+
+        this.app.use(express.static('public'));
 
     }
 
     routes() {
 
-        this.app.get('/', (request, response) => {
-            response.send('We\'re ready!');
+        this.app.get('/home', (request, response) => {
+            response.send('This is home :)');
         });
 
     }
