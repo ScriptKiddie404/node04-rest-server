@@ -26,7 +26,6 @@ const postUsers = async (req = request, res = response) => {
 
     const user = new User({ name, email, password, role });
 
-
     //!! Validar que el correo no exista previamente en la base de datos.
     const emailExists = await User.findOne({ email });
 
