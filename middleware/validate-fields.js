@@ -1,0 +1,18 @@
+const { validationResult } = require('express-validator');
+
+const validateFields = (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        res.status(400);
+        return res.json(errors); //!! Mandamos todos los errores que hizo el middleware
+    }
+
+    next();
+
+}
+
+
+module.exports = {
+    validateFields
+}
