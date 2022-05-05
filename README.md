@@ -7,4 +7,6 @@ This is a large project in which a rest server is implemented that allows all ki
 + Dotenv
 + Colors
 + CORS
-+ 
++ Express-validatior
++ Bcriptjs
++ Mongoose
