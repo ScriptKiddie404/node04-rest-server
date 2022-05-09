@@ -2,6 +2,7 @@
 const { request, response } = require('express');
 const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
+const user = require('../models/user');
 
 const getUsers = (req, res = response) => {
 
@@ -27,13 +28,24 @@ const postUsers = async (req = request, res = response) => {
 
 }
 
-const putUsers = (req = request, res = response) => {
+const putUsers = async (req = request, res = response) => {
 
-    const id = req.params.id; //!! Se obtiene el id de: /:id => PUT
+    const { id } = req.params;
+    const { password, google, email, ...resto } = req.body;
+
+    if (password) {
+        // !! Encriptar password:
+        const salt = bcryptjs.genSaltSync();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+
+
+    const user = await User.findByIdAndUpdate(id, resto);
+
 
     res.json({
         msg: 'api-put',
-        id
+        user
     });
 }
 
@@ -43,6 +55,7 @@ const deleteUsers = (req = request, res = response) => {
     });
 }
 
+
 module.exports = {
     getUsers,
     postUsers,
@@ -50,11 +63,11 @@ module.exports = {
     deleteUsers
 }
 
-    /*
-        !!Reminder:
-        Supongamos que hacemos un get tipo: localhost:3000/api?q=hola&name=adasas&id=3
-        Para obtener el query se usa:
-        const query = req.query;
-        O bien, una desestructuración:
-        const {q, name, id} = req.query
-    */
+/*
+    !!Reminder:
+    Supongamos que hacemos un get tipo: localhost:3000/api?q=hola&name=adasas&id=3
+    Para obtener el query se usa:
+    const query = req.query;
+    O bien, una desestructuración:
+    const {q, name, id} = req.query
+*/
