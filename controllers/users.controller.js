@@ -4,9 +4,13 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
 const user = require('../models/user');
 
-const getUsers = (req, res = response) => {
+const getUsers = async (req = request, res = response) => {
 
-    res.json({ msg: 'api-get' });
+    const { limit = 5, from = 0 } = req.query;
+
+    const users = await User.find().limit(Number(limit)).skip(Number(from)) //!! Es necesario parsear a number, el skip funciona como un "desde" para la paginación.
+
+    res.json({ users });
 
 }
 
@@ -43,10 +47,8 @@ const putUsers = async (req = request, res = response) => {
     const user = await User.findByIdAndUpdate(id, resto);
 
 
-    res.json({
-        msg: 'api-put',
-        user
-    });
+    res.json({ user });
+
 }
 
 const deleteUsers = (req = request, res = response) => {
