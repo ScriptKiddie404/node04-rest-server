@@ -12,9 +12,9 @@ const getUsers = (req, res = response) => {
 
 const postUsers = async (req = request, res = response) => {
 
-    const { name, email, password, role } = req.body;
+    const { name, email, password, rol } = req.body;
 
-    const user = new User({ name, email, password, role });
+    const user = new User({ name, email, password, rol });
 
     // Hashear password
     const salt = bcryptjs.genSaltSync();
@@ -31,7 +31,7 @@ const postUsers = async (req = request, res = response) => {
 const putUsers = async (req = request, res = response) => {
 
     const { id } = req.params;
-    const { password, google, email, ...resto } = req.body;
+    const { _id, password, google, email, ...resto } = req.body;
 
     if (password) {
         // !! Encriptar password:

@@ -22,7 +22,7 @@ const UserSchema = Schema({
         type: String,
     },
 
-    role: {
+    rol: {
         type: String,
     },
 
