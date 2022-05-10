@@ -62,10 +62,15 @@ const putUsers = async (req = request, res = response) => {
 
 }
 
-const deleteUsers = (req = request, res = response) => {
-    res.json({
-        msg: 'api-delete'
-    });
+const deleteUsers = async (req = request, res = response) => {
+
+    const { id } = req.params;
+
+    // !! Para mantener integridad de referencias no borramos al usuario, sino que cambiamos su estatus a false (usuario inactivo).
+    const user = await User.findByIdAndUpdate(id, { estatus: false });
+
+    res.json({ user });
+
 }
 
 
