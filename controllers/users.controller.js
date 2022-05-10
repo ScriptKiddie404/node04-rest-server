@@ -8,9 +8,20 @@ const getUsers = async (req = request, res = response) => {
 
     const { limit = 5, from = 0 } = req.query;
 
-    const users = await User.find().limit(Number(limit)).skip(Number(from)) //!! Es necesario parsear a number, el skip funciona como un "desde" para la paginación.
+    //!! Buscamos sólo cuando los usuarios find => estatus = true
+    //!! Es necesario parsear a number, el skip funciona como un "desde" para la paginación.
+    // const users = await User.find({ estatus: true }).limit(Number(limit)).skip(Number(from));
 
-    res.json({ users });
+    // !! Obetener el total de usuarios.
+    // const count = await User.countDocuments({ estatus: true });
+
+    // !! Lanzamos promesas de forma simultánea.
+    const [users, total] = await Promise.all([
+        User.find({ estatus: true }).limit(Number(limit)).skip(Number(from)),
+        User.countDocuments({ estatus: true })
+    ]);
+
+    res.json({ total, users });
 
 }
 
