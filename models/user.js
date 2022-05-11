@@ -41,7 +41,8 @@ const UserSchema = Schema({
 // !! Sobreescribimos el método toJSON, para eliminar la contraseña hasheada y el __v por default de mongoDB
 
 UserSchema.methods.toJSON = function () {
-    const { __v, password, ...user } = this.toObject();
+    const { __v, password, _id, ...user } = this.toObject();
+    user.uid = _id;
     return user;
 }
 
