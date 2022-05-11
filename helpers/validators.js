@@ -25,9 +25,6 @@ const userExistsById = async (id) => {
 
 }
 
-const isValidNumber = async () => {
-    
-}
 
 module.exports = {
     emailExists,
