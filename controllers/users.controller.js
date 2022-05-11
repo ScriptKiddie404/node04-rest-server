@@ -68,7 +68,7 @@ const deleteUsers = async (req = request, res = response) => {
 
     // !! Para mantener integridad de referencias no borramos al usuario, sino que cambiamos su estatus a false (usuario inactivo).
     const user = await User.findByIdAndUpdate(id, { estatus: false });
-
+ 
     res.json({ user });
 
 }

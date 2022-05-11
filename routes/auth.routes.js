@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const { login } = require('../controllers/auth');
 const { validateFields } = require('../middleware/validate-fields');
 
+
 const router = Router();
 
 router.post('/login', [
