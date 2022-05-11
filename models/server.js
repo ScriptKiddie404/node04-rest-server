@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
+require('colors');
 
 
 class Server {
@@ -42,13 +43,14 @@ class Server {
 
     routes() {
 
+        this.app.use('/api/auth', require('../routes/auth.routes'));
         this.app.use('/api/users', require('../routes/users.routes'));
 
     }
 
     listen() {
         this.app.listen(this.port, () => {
-            console.log(`App listening on port ${this.port}`);
+            console.log(`App listening on port ${this.port}`.yellow);
         })
     }
 
