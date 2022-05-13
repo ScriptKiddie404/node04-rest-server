@@ -1,11 +1,14 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { validateFields } = require('../middleware/validate-fields');
 const { getUsers, postUsers, putUsers, deleteUsers } = require('../controllers/users.controller');
+
 const { isValidRole } = require('../helpers/db-validators')
 const { emailExists, userExistsById } = require('../helpers/validators');
+
+const { validateFields } = require('../middleware/validate-fields');
 const { validateJWT } = require('../middleware/validate-jwt');
+const { isAdminRole } = require('../middleware/validate-rol');
 
 
 const router = Router();
@@ -20,7 +23,7 @@ router.post('/', [
     check('password', 'La contrañseña debe ser de al menos ocho caracteres.').isLength({ min: 8 }),
     check('rol', 'Se debe ingresar un rol.').not().isEmpty(),
     check('rol').custom(isValidRole),
-    validateFields //!! Custom middleware
+    validateFields 
 ], postUsers);
 
 router.put('/:id', [
@@ -33,6 +36,7 @@ router.put('/:id', [
 
 router.delete('/:id', [
     validateJWT,
+    isAdminRole,
     check('id', 'No es un ID válido.').isMongoId(),
     check('id').custom(userExistsById),
     validateFields

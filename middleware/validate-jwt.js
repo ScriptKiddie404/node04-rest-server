@@ -21,7 +21,6 @@ const validateJWT = async (req = request, res = response, next) => {
 
         const user = await User.findById(uid); //! Este nos devuelve todo el usuario que hizo la authenticación una vez que validamos el token.
 
-        //! Validar que el usuario exista en la base de datos
         if (!user) {
             res.status(401);
             return res.json({
@@ -37,8 +36,7 @@ const validateJWT = async (req = request, res = response, next) => {
             });
         }
 
-        //! Ingresamos la propiedad "authenticatedUser" al request.
-        req.authenticatedUser = user;
+        req.user = user;
 
         next(); //! Seguimos con el resto de middlewares.   
 
