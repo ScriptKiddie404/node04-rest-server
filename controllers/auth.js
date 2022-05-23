@@ -1,12 +1,13 @@
 const bcryptjs = require("bcryptjs");
 const { request, response } = require("express");
 
-const { generateJWT } = require('../helpers/generatejwt')
+const { generateJWT } = require('../helpers/generatejwt');
+const { googleVerify } = require("../helpers/google-verify");
 
 const User = require('../models/user')
 
 
-const login = async (req = request, res = response) => {
+const login = async(req = request, res = response) => {
 
     const { email, password } = req.body;
 
@@ -51,6 +52,28 @@ const login = async (req = request, res = response) => {
         return res.json({ mesage: 'Ocurrió un error inesperado.' })
     }
 
+
+}
+
+const googleSignIn = async(req, res = response) => {
+
+    const { id_token } = req.body
+
+    try {
+
+        const googleUser = googleVerify(id_token)
+
+
+        res.json({
+            msg: 'All good.',
+            id_token
+        })
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
 
 }
 
