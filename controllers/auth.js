@@ -61,7 +61,9 @@ const googleSignIn = async(req, res = response) => {
 
     try {
 
-        const googleUser = googleVerify(id_token)
+        const googleUser = googleVerify(id_token);
+
+        console.log(googleUser);
 
 
         res.json({
@@ -77,4 +79,4 @@ const googleSignIn = async(req, res = response) => {
 
 }
 
-module.exports = { login }
+module.exports = { login, googleSignIn }
